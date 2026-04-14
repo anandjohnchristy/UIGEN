@@ -75,12 +75,14 @@ export function MainContent({ user, project }: MainContentProps) {
                 </div>
 
                 {/* Content Area */}
-                <div className="flex-1 overflow-hidden bg-neutral-50">
-                  {activeView === "preview" ? (
-                    <div className="h-full bg-white">
-                      <PreviewFrame />
-                    </div>
-                  ) : (
+                <div className="flex-1 overflow-hidden bg-neutral-50 relative">
+                  {/* Preview - always mounted to preserve iframe state and avoid focus-stealing issues */}
+                  <div className={`absolute inset-0 bg-white${activeView !== "preview" ? " hidden" : ""}`}>
+                    <PreviewFrame />
+                  </div>
+
+                  {/* Code View */}
+                  {activeView === "code" && (
                     <ResizablePanelGroup
                       direction="horizontal"
                       className="h-full"
